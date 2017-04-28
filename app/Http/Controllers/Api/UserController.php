@@ -17,6 +17,22 @@ class UserController extends Controller
 {
     use Helpers;
 
+    public function __construct()
+    {
+        $this->middleware('api.auth');
+
+        // Only apply to a subset of methods.
+        //$this->middleware('api.auth', ['only' => ['index']]);
+    }
+
+    public function index()
+    {
+        $user = $this->auth->user();
+
+        return $user;
+    }
+
+
     public function getUsers()
     {
 

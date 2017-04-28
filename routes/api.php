@@ -15,17 +15,13 @@ use Illuminate\Http\Request;
 
 $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1', [], function ($api) {
+$api->version('v1', ['middleware' => 'auth'], function ($api) {
 
-    $api->group(['middleware' => 'foo'], function ($api) {
-        // Endpoints registered here will have the "foo" middleware applied.
-    });
+//    $api->group(['middleware' => 'api.auth'], function ($api) {
+//
+//    });
 
     $api->get('users', 'App\Http\Controllers\Api\UserController@getUsers');
-
-    $api->get('test', function () {
-        return 'It is ok';
-    });
 
 });
 
