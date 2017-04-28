@@ -103,7 +103,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY', 'at3a+BdibJx9XjdPthHf09F/2mEqD/n4euN9atqMfEs='),
 
     'cipher' => 'AES-256-CBC',
 
@@ -162,6 +162,10 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        /*
+         * DingoAPI
+         */
+        Dingo\Api\Provider\LaravelServiceProvider::class,
 
         /*
          * Package Service Providers...
