@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1', ['middleware' => 'cors'], function ($api) {
+$api->version('v1', [], function ($api) {
 
     $api->post('authenticate', 'App\Http\Controllers\Api\AuthenticateController@authenticate');
 
@@ -25,7 +25,6 @@ $api->version('v1', ['middleware' => 'cors'], function ($api) {
 $api->version('v1', ['middleware' => 'api.auth'], function ($api) {
 
     $api->get('users/{id}', 'App\Http\Controllers\Api\AuthenticateController@show');
-
     $api->get('users', 'App\Http\Controllers\Api\UserController@getUsers');
 
 });

@@ -95,4 +95,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\UserStatus', 'status_id', 'id');
     }
+
+    public function remember_token($token)
+    {
+       $this->remember_token=$token;
+       $this->save();
+    }
+
+
 }

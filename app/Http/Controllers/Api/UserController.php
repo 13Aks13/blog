@@ -20,9 +20,6 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('api.auth');
-
-        // Only apply to a subset of methods.
-        //$this->middleware('api.auth', ['only' => ['index']]);
     }
 
     public function index()
@@ -49,7 +46,6 @@ class UserController extends Controller
     public function getUser($id)
     {
         $user = User::findOrFail($id);
-
 //        return $this->response->array($user->toArray());
         return $this->response->collection($user, new UserTransformer);
 
