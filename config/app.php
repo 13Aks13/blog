@@ -166,12 +166,14 @@ return [
          * DingoAPI
          */
         Dingo\Api\Provider\LaravelServiceProvider::class,
-
         /*
          *  JWT
          */
         'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
-
+        /*
+         *  Cors
+         */
+        Barryvdh\Cors\ServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -185,6 +187,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+
+
 
     ],
 
