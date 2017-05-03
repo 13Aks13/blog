@@ -23,12 +23,12 @@ class CreateUsersTable extends Migration
             $table->integer('status_id')->unsigned()->default(1);
             $table->boolean('isBlocked')->default(false);
             $table->integer('goal')->default(0);
-            $table->rememberToken();
+            $table->string('remember_token'); // rememberToken();
             $table->timestamps();
         });
     }
 
-    /**
+    /*
      * Reverse the migrations.
      *
      * @return void

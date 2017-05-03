@@ -36,6 +36,7 @@ class AuthenticateController extends Controller
         //save token to DB
         $user = User::where('email', $credentials['email'])->first();
         $user->remember_token($token);
+
         // all good so return the token
         return response()->json(compact('token'));
     }
