@@ -38,7 +38,7 @@ class AuthenticateController extends Controller
         $user->remember_token($token);
 
         // all good so return the token
-        return response()->json(compact('token'));
+        return response()->json(compact(['token', 'user'] ));
     }
 
 }

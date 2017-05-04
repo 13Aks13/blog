@@ -24,7 +24,7 @@ $api->version('v1', [], function ($api) {
 
 $api->version('v1', ['middleware' => 'api.auth'], function ($api) {
 
-    $api->get('users/{id}', 'App\Http\Controllers\Api\AuthenticateController@show');
+    $api->get('users/{id}', 'App\Http\Controllers\Api\UserController@show');
     $api->get('users', 'App\Http\Controllers\Api\UserController@getUsers');
 
 });

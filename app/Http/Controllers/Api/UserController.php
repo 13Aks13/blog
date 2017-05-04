@@ -29,27 +29,20 @@ class UserController extends Controller
         return $user;
     }
 
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+
+        return $this->response->collection($user, new UserTransformer);
+    }
 
     public function getUsers()
     {
-
         $users = User::all();
 
         return $this->response->collection($users, new UserTransformer);
-//
-//        $users = User::paginate(2);
-//
-//        return $this->response->paginator($users, new UserTransformer);
-
     }
 
-    public function getUser($id)
-    {
-        $user = User::findOrFail($id);
-//        return $this->response->array($user->toArray());
-        return $this->response->collection($user, new UserTransformer);
-
-    }
 
 }
 
