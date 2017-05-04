@@ -16,6 +16,11 @@ use Illuminate\Http\Request;
 
 class AuthenticateController extends Controller
 {
+    public function me(Request $request)
+    {
+        return JWTAuth::parseToken()->authenticate();
+    }
+
     public function authenticate(Request $request)
     {
         // grab credentials from the request
@@ -64,6 +69,24 @@ class AuthenticateController extends Controller
 
         // the token is valid and we have found the user via the sub claim
         return response()->json(compact('user'));
+    }
+
+
+    public function validateToken()
+    {
+        // Our routes file should have already authenticated this token, so we just return success here
+        return API::response()->array(['status' => 'success'])->statusCode(200);
+    }
+    public function register(UserRequest $request)
+    {
+        $newUser = [
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => bcrypt($request->get('password')),
+        ];
+        $user = User::create($newUser);
+        $token = JWTAuth::fromUser($user);
+        return response()->json(compact('token'));
     }
 
 }

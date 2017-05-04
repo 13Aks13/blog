@@ -19,15 +19,17 @@ $api->version('v1', [], function ($api) {
 
     $api->post('authenticate', 'App\Http\Controllers\Api\AuthenticateController@authenticate');
 
+    $api->group(['middleware' => 'jwt.auth'], function ($api) {
+
+        $api->post('authuser', 'App\Http\Controllers\Api\AuthenticateController@getAuthenticatedUser');
+        $api->get('users/{id}', 'App\Http\Controllers\Api\UserController@show');
+        $api->get('users', 'App\Http\Controllers\Api\UserController@getUsers');
+
+    });
 });
 
 
-$api->version('v1', ['middleware' => 'api.auth'], function ($api) {
 
-    $api->get('users/{id}', 'App\Http\Controllers\Api\UserController@show');
-    $api->get('users', 'App\Http\Controllers\Api\UserController@getUsers');
-
-});
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
