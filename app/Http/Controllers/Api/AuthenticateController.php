@@ -1,23 +1,21 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: adreik
+ * User: Andrew K.
  * Date: 28.04.17
  * Time: 13:07
  */
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Dingo\Api\Routing\Helpers;
 use JWTAuth;
 use App\User;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 
-class AuthenticateController extends Controller
+class AuthenticateController extends BaseController
 {
-    use Helpers;
 
     public function me(Request $request)
     {
