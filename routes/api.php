@@ -17,14 +17,20 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [], function ($api) {
 
-    $api->post('authenticate', 'App\Http\Controllers\Api\AuthenticateController@authenticate');
+    // Login route
+    $api->post('login', 'AuthenticateController@authenticate');
+    $api->post('register', 'AuthenticateController@register');
 
     $api->group(['middleware' => 'jwt.auth'], function ($api) {
 
-        $api->post('authuser', 'App\Http\Controllers\Api\AuthenticateController@getAuthenticatedUser');
-        $api->get('users/{id}', 'App\Http\Controllers\Api\UserController@show');
-        $api->get('users', 'App\Http\Controllers\Api\UserController@getUsers');
+        $api->get('users/me', 'AuthenticateController@me');
+        $api->get('validate_token', 'AuthenticateController@validateToken');
 
+        $api->get('users', 'UserController@index');
+        $api->post('users', 'UserController@store');
+        $api->get('users/{id}', 'UserController@show');
+        $api->delete('users/{id}', 'UserController@destroy');
+        $api->put('users/{id}', 'UserController@update');
     });
 });
 

@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Dingo\Api\Routing\Helpers;
 use JWTAuth;
 use App\User;
 use Illuminate\Http\Request;
@@ -16,6 +17,8 @@ use Illuminate\Http\Request;
 
 class AuthenticateController extends Controller
 {
+    use Helpers;
+
     public function me(Request $request)
     {
         return JWTAuth::parseToken()->authenticate();
@@ -77,6 +80,7 @@ class AuthenticateController extends Controller
         // Our routes file should have already authenticated this token, so we just return success here
         return API::response()->array(['status' => 'success'])->statusCode(200);
     }
+
     public function register(UserRequest $request)
     {
         $newUser = [

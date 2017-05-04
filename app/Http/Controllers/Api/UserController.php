@@ -42,7 +42,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        return User::create($request->only(['name', 'email']));
+        return User::create($request->only(['name', 'email', 'password', 'goal']));
     }
 
     /**
@@ -57,7 +57,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the dog in the database.
+     * Update the user in the database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -65,9 +65,9 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        $dog = User::findOrFail($id);
-        $dog->update($request->only(['name', 'age']));
-        return $dog;
+        $user = User::findOrFail($id);
+        $user->update($request->only(['name', 'email', 'password', 'goal']));
+        return $user;
     }
 
     public function getUsers()
