@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Transformers\UserTransformer;
 use Dingo\Api\Routing\Helpers;
 use App\User;
+use Api\Requests\UserRequest;
 
 class UserController extends Controller
 {

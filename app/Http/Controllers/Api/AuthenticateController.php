@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api;
 use JWTAuth;
 use App\User;
 use Illuminate\Http\Request;
+use Api\Requests\UserRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 
