@@ -35,6 +35,13 @@ class UserController extends Controller
         return $this->collection(User::all(), new UserTransformer);
     }
 
+//    public function getUsers()
+//    {
+//        $users = User::all();
+//
+//        return $this->response->collection($users, new UserTransformer);
+//    }
+
     /**
      * Store a new user in the database.
      *
@@ -69,13 +76,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->update($request->only(['name', 'email', 'password', 'goal']));
         return $user;
-    }
-
-    public function getUsers()
-    {
-        $users = User::all();
-
-        return $this->response->collection($users, new UserTransformer);
     }
 
 

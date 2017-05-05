@@ -3,8 +3,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 
-class UserStatusChanging
+class UserStatusChanging extends Model
 {
     public function users()
     {
