@@ -13,6 +13,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Api\Requests\UserRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 
 class AuthenticateController extends BaseController
