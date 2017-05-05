@@ -35,13 +35,6 @@ class UserController extends Controller
         return $this->collection(User::all(), new UserTransformer);
     }
 
-//    public function getUsers()
-//    {
-//        $users = User::all();
-//
-//        return $this->response->collection($users, new UserTransformer);
-//    }
-
     /**
      * Store a new user in the database.
      *
@@ -78,6 +71,19 @@ class UserController extends Controller
         return $user;
     }
 
+    /**
+     * Update the current status for user in the database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(UserRequest $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->update($request->only(['status_id']));
+        return $user;
+    }
 
 }
 

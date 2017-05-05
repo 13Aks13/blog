@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Dingo\Api\Facade\API;
 use JWTAuth;
 use App\User;
 use Illuminate\Http\Request;

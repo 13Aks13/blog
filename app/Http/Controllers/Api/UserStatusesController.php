@@ -12,9 +12,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\UserStatus;
 use App\Transformers\UserStatusesTransformer;
+use Dingo\Api\Routing\Helpers;
 
 class UserStatusesController extends Controller
 {
+
+    use Helpers;
+
     /**
      * Show all statuses for user
      *
@@ -24,6 +28,8 @@ class UserStatusesController extends Controller
      */
     public function index()
     {
-        return $this->collection(UserStatus::all(), new UserStatusesTransformer);
+
+        dd(UserStatus::all());
+        //return $this->collection(UserStatus::all(), new UserStatusesTransformer);
     }
 }
