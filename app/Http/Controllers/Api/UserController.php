@@ -24,7 +24,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show all dogs
+     * Show all user
      *
      * Get a JSON representation of all the dogs
      *
