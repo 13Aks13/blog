@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Transformers\UserTransformer;
+use Dingo\Api\Http\Request;
 use Dingo\Api\Routing\Helpers;
 use App\User;
 use Api\Requests\UserRequest;
@@ -82,6 +83,24 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->update($request->only(['status_id']));
+        return $user;
+    }
+
+
+    /**
+     * Create the current status for user in the database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function setCurrentStatus(Request $request)
+    {
+//        DB::table('user_status_changing')->insert(
+//            ['user_id' => $request->input('user_id'), 'status_id' => $request->input('status_id')]
+//        );
+        $user = User::find($request->input('user_id'));
+        $user->userStatuses()->attach($request->input('status_id'));
         return $user;
     }
 

@@ -102,7 +102,7 @@ class User extends Model implements AuthenticatableContract,
 
     public function userStatus()
     {
-        return $this->belongsTo('App\Models\UserStatus', 'status_id', 'id');
+        return $this->belongsTo('App\Models\UserStatus', 'status_id', 'id', 'user_status_changing');
     }
 
     public function remember_token($token)

@@ -30,8 +30,6 @@ $api->version('v1', [], function ($api) {
             $api->get('users/me', 'AuthenticateController@me');
             $api->get('validate_token', 'AuthenticateController@validateToken');
 
-
-
             // User
             $api->get('users', 'UserController@index');
             $api->post('users', 'UserController@store');
@@ -40,16 +38,7 @@ $api->version('v1', [], function ($api) {
             $api->put('users/{id}', 'UserController@update');
 
             // User current status
-            $api->post('status', 'UserController@updateStatus');
-
-            // User Statuses
-            $api->get('statuses', 'UserStatusesController@index');
-
-            // User Statuses Changing
-            $api->post('changestatus', 'UserStatusChangingController@store');
-            $api->get('changestatus/{id}', 'UserStatusChangingController@status');
-
-
+            $api->post('status', 'UserController@setCurrentStatus');
         });
     });
 });
