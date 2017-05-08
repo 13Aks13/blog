@@ -18,11 +18,22 @@ class UserStatusChangingController extends Controller
 {
     use Helpers;
 
-    public function getUserStatuses()
+    public function __construct()
     {
-        $userStatus = UserStatusChanging::all();
+        $this->middleware('jwt.auth');
+    }
 
-        return $this->response->collection($userStatus, new UserStatusChangingTransformer);
+
+    /**
+     * Show all statuses for users
+     *
+     * Get a JSON representation of all the dogs
+     *
+     * @Get('/')
+     */
+    public function index()
+    {
+        return $this->collection(UserStatusChanging::all(), new UserStatusChangingTransformer);
     }
 
 
@@ -46,6 +57,7 @@ class UserStatusChangingController extends Controller
      */
     public function store(UserStatusChanging $request)
     {
+
         return UserStatusChanging::create($request->only(['user_id', 'status_id']));
     }
 

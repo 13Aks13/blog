@@ -17,6 +17,7 @@ class UserStatusChangingTransformer extends TransformerAbstract
     public function transform(UserStatusChanging $userStatus)
     {
         return [
+            'id' => $userStatus->id,
             'user_id' => $userStatus->users,
             'status_id' => $userStatus->userstatus,
             'start_time' => date('Y-m-d', strtotime($userStatus->created_at)),

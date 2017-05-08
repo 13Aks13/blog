@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserStatusChanging extends Model
 {
+
     public function users()
     {
         return $this->hasMany('App\Models\User');

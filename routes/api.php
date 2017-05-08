@@ -38,6 +38,7 @@ $api->version('v1', [], function ($api) {
             $api->get('users/{id}', 'UserController@show');
             $api->delete('users/{id}', 'UserController@destroy');
             $api->put('users/{id}', 'UserController@update');
+
             // User current status
             $api->post('status', 'UserController@updateStatus');
 

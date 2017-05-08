@@ -19,6 +19,12 @@ class UserStatusesController extends Controller
 
     use Helpers;
 
+
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
     /**
      * Show all statuses for user
      *
