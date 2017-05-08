@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Transformers\UserStatusChangingTransformer;
+use Dingo\Api\Http\Request;
 use Dingo\Api\Routing\Helpers;
 use App\Models\UserStatusChanging;
 
@@ -55,10 +56,9 @@ class UserStatusChangingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserStatusChanging $request)
+    public function store(Request $request)
     {
-
-        return UserStatusChanging::create($request->only(['user_id', 'status_id']));
+        return UserStatusChanging::create($request->only('user_id', 'status_id'));
     }
 
 }

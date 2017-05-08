@@ -16,6 +16,7 @@ class User extends Model implements AuthenticatableContract,
                                     CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
+
     /**
      * The attributes that are mass assignable.
      *
