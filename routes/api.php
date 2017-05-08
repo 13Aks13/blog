@@ -39,6 +39,10 @@ $api->version('v1', [], function ($api) {
 
             // User current status
             $api->post('status', 'UserController@setCurrentStatus');
+
+            // User Statuses
+            $api->get('statuses', 'UserStatusesController@index');
+
         });
     });
 });
