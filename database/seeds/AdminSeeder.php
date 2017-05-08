@@ -18,5 +18,13 @@ class AdminSeeder extends Seeder
             'role_id' => 1,
             'status_id' => 1
         ]);
+
+        DB::table('users')->insert([
+            'name' => 'TestUser',
+            'email' => 'u@email.com',
+            'password' => Hash::make('secret'),
+            'role_id' => 2,
+            'status_id' => 1
+        ]);
     }
 }

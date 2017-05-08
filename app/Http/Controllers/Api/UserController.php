@@ -99,8 +99,8 @@ class UserController extends Controller
 //        DB::table('user_status_changing')->insert(
 //            ['user_id' => $request->input('user_id'), 'status_id' => $request->input('status_id')]
 //        );
-        $user = User::find($request->input('user_id'));
-        $user->userStatuses()->attach($request->input('status_id'));
+        $user = User::findOrFail($request->input('user_id'));
+        $user->userStatus()->attach($request->input('status_id'));
         return $user;
     }
 

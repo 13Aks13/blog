@@ -16,7 +16,7 @@ class CreateUserStatusChanging extends Migration
         Schema::create('user_status_changing', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('status_id')->unsigned();
+            $table->integer('user_status_id')->unsigned();
             $table->timestamps();
         });
     }
