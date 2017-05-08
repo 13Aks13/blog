@@ -22,14 +22,13 @@ class UserStatusesController extends Controller
     /**
      * Show all statuses for user
      *
-     * Get a JSON representation of all the dogs
+     * Get a JSON representation of all the statuses
      *
      * @Get('/')
      */
     public function index()
     {
 
-        dd(UserStatus::all());
-        //return $this->collection(UserStatus::all(), new UserStatusesTransformer);
+        return $this->collection(UserStatus::all(), new UserStatusesTransformer);
     }
 }
