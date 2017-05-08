@@ -28,7 +28,7 @@ class UserStatusChangingController extends Controller
     /**
      * Show all statuses for users
      *
-     * Get a JSON representation of all the dogs
+     * Get a JSON representation of all the user statuses
      *
      * @Get('/')
      */
@@ -49,6 +49,17 @@ class UserStatusChangingController extends Controller
         return $this->item(UserStatusChanging::findOrFail($id), new UserStatusChangingTransformer);
     }
 
+
+    /**
+     * Display the specified resource by user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function status($user_id)
+    {
+        return $this->item(UserStatusChanging::where('user_id', $user_id)->first(), new UserStatusChangingTransformer);
+    }
 
     /**
      * Store a new status for user in the database.

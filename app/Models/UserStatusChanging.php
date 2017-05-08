@@ -21,12 +21,12 @@ class UserStatusChanging extends Model
 
     public function users()
     {
-        return $this->hasMany('App\Models\User');
+        return $this->hasOne('App\Models\User');
     }
 
     public function userstatus()
     {
-        return $this->hasMany('App\Models\UserStatus');
+        return $this->hasOne('App\Models\UserStatus');
     }
 
 }

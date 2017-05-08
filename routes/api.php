@@ -47,6 +47,8 @@ $api->version('v1', [], function ($api) {
 
             // User Statuses Changing
             $api->post('changestatus', 'UserStatusChangingController@store');
+            $api->get('changestatus/{id}', 'UserStatusChangingController@status');
+
 
         });
     });

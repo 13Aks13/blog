@@ -21,6 +21,7 @@ class UserStatusChangingTransformer extends TransformerAbstract
             'user_id' => $userStatus->users,
             'status_id' => $userStatus->userstatus,
             'start_time' => date('Y-m-d', strtotime($userStatus->created_at)),
+            'start_finish' => date('Y-m-d', strtotime($userStatus->update_at)),
         ];
     }
 }
