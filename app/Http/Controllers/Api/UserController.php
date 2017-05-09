@@ -73,21 +73,6 @@ class UserController extends Controller
     }
 
     /**
-     * Update the current status for user in the database.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateStatus(UserRequest $request, $id)
-    {
-        $user = User::findOrFail($id);
-        $user->update($request->only(['status_id']));
-        return $user;
-    }
-
-
-    /**
      * Create the current status for user in the database.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -96,14 +81,22 @@ class UserController extends Controller
      */
     public function setCurrentStatus(Request $request)
     {
-//        DB::table('user_status_changing')->insert(
-//            ['user_id' => $request->input('user_id'), 'status_id' => $request->input('status_id')]
-//        );
         $user = User::findOrFail($request->input('user_id'));
-        $user->userStatus()->attach($request->input('status_id'));
-        $user->status_id=$request->input('status_id');
-        $user->save();
+        if ($user->userStatus->last()) {
+            if ( $user->userStatus->last()->status_id != $request->input( 'status_id' ) ) {
+                $user->userStatus()->attach( $request->input( 'status_id' ) );
+            }
+        } else {
+            $user->userStatus()->attach( $request->input( 'status_id' ) );
+        }
         return $user;
+    }
+
+    public function getStatusesTime(Request $request)
+    {
+        $user = User::findOrFail($request->input('user_id'));
+        $statuses = $user->countTime();
+        return $statuses;
     }
 
 }

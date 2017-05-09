@@ -43,6 +43,8 @@ $api->version('v1', [], function ($api) {
             // User Statuses
             $api->get('statuses', 'UserStatusesController@index');
 
+            $api->post('times', 'UserController@getStatusesTime');
+
         });
     });
 });

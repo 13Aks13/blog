@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use MongoDB\BSON\Timestamp;
 
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
@@ -116,6 +117,38 @@ class User extends Model implements AuthenticatableContract,
        $this->remember_token=$token;
        $this->save();
     }
+
+
+    public function countTime()
+    {
+       $data = $this->userStatus->all();
+       $result = [];
+       $tempdata = [];
+
+       foreach($data as $row) {
+           $tempdata[] = [$row->id=>$row->pivot->created_at];
+       }
+
+       for ($i=0; $i<count($tempdata)-1; $i++) {
+           //dd(array_first($tempdata[$i+1])->timestamp);
+           if (isset($tempdata[$i+1])) {
+               $timestamp0 = array_first($tempdata[$i])->timestamp;
+               $timestamp1 = array_first($tempdata[$i+1])->timestamp;
+
+               $statusId = array_search(array_first($tempdata[$i]), $tempdata[ $i ]);
+
+               $result[] = [$statusId=>$timestamp1 - $timestamp0];
+           } else {
+               $timestamp0 = array_first($tempdata[$i])->timestamp;
+
+               $statusId = array_search(array_first($tempdata[$i]), $tempdata[ $i ]);
+               $result[] = [$statusId=> time() - $timestamp0];
+           }
+       }
+       dd($result);
+       return $result;
+    }
+
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT
