@@ -101,6 +101,8 @@ class UserController extends Controller
 //        );
         $user = User::findOrFail($request->input('user_id'));
         $user->userStatus()->attach($request->input('status_id'));
+        $user->status_id=$request->input('status_id');
+        $user->save();
         return $user;
     }
 

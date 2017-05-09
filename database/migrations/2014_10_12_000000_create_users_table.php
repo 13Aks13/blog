@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->string('password');
             $table->integer('role_id')->unsigned()->default(2);
-            $table->integer('status_id')->unsigned()->default(1);
+//            $table->integer('status_id')->unsigned()->default(1);
             $table->boolean('isBlocked')->default(false);
             $table->integer('goal')->default(0);
             $table->string('remember_token')->default();
