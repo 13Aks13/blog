@@ -38,11 +38,12 @@ $api->version('v1', [], function ($api) {
             $api->put('users/{id}', 'UserController@update');
 
             // User current status
-            $api->post('status', 'UserController@setCurrentStatus');
+            $api->get('status', 'StatisticsController@getCurrentStatus');
+            $api->post('status', 'StatisticsController@setCurrentStatus');
+
 
             // User Statuses
             $api->get('statuses', 'UserStatusesController@index');
-
             $api->post('times', 'UserController@getStatusesTime');
 
         });

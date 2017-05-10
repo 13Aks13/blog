@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Statistics extends Model
 {
+
     /*
      * The attributes that are mass assignable.
      *
