@@ -127,40 +127,46 @@ class User extends Model implements AuthenticatableContract,
         $td0 = [];
 
         foreach($data as $row) {
-           $td[] = [$row->id=>$row->pivot->created_at];
+            $td[] = [$row->id=>$row->pivot->created_at];
         }
 
-        for ($i=0; $i<count($td)-1; $i++) {
+        for ($i=0; $i<=count($td)-1; $i++) {
             if (isset($td[$i+1])) {
-               $timestamp0 = array_first($td[$i])->timestamp;
-               $timestamp1 = array_first($td[$i+1])->timestamp;
+                $timestamp0 = array_first($td[$i])->timestamp;
+                $timestamp1 = array_first($td[$i+1])->timestamp;
 
-               $statusId = array_search(array_first($td[$i]), $td[ $i ]);
+                $statusId = array_search(array_first($td[$i]), $td[ $i ]);
 
-               $td0[] = [$statusId=>$timestamp1 - $timestamp0];
+                $td0[] = [$statusId=>$timestamp1 - $timestamp0];
             } else {
-               $timestamp0 = array_first($td[$i])->timestamp;
+                $timestamp0 = array_first($td[$i])->timestamp;
 
-               $statusId = array_search(array_first($td[$i]), $td[ $i ]);
-               $td0[] = [$statusId=> time() - $timestamp0];
+                $statusId = array_search(array_first($td[$i]), $td[ $i ]);
+                $td0[] = [$statusId=>time() - $timestamp0];
             }
         }
         // Total time in day
         $timestamp0 = array_first($td[0])->timestamp;
         $timestamp1 = array_first($td[count($td)-1])->timestamp;
         $statusId = 100;
-        $td0[] = [$statusId=>$timestamp1 - $timestamp0];
+        $td0[] = [$statusId=>time() - $timestamp0];
 
+        $td = [];
         // Count same statuses
         foreach ($td0 as $value) {
-            foreach($value as $k => $v) {
-                if(!isset($result[$k])) {
-                    $result[$k] = $v;
+            foreach($value as $k => $seconds) {
+                if(!isset($td[$k])) {
+                    $td[$k] =  $seconds;
                 } else {
-                    $result[$k] = $result[$k] + $v;
+                    $td[$k] = $td[$k] + $seconds;
                 }
             }
         }
+
+        foreach ($td as $key=>$value) {
+            $result[$key] = gmdate("H:i:s", $value);
+        }
+
 
         return $result;
     }
