@@ -13,8 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-
-
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [], function ($api) {
@@ -41,16 +39,12 @@ $api->version('v1', [], function ($api) {
             $api->get('status', 'StatisticsController@getCurrentStatus');
             $api->post('status', 'StatisticsController@setCurrentStatus');
 
-
             // User Statuses
             $api->get('statuses', 'UserStatusesController@index');
-            $api->post('times', 'UserController@getStatusesTime');
 
         });
     });
 });
-
-
 
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {

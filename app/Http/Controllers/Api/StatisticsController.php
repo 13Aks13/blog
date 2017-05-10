@@ -86,7 +86,7 @@ class StatisticsController extends Controller
      */
     public function getCurrentStatus(Request $request)
     {
-        return $this->item(Statistics::where([['user_id', $request->user_id], ['status_id', $request->status_id]])->latest()->first(), new StatisticsTransformer);
+        return $this->item(Statistics::where('user_id', $request->user_id)->latest()->first(), new StatisticsTransformer);
     }
 
     /**
@@ -117,7 +117,6 @@ class StatisticsController extends Controller
                 $previous->seconds = $seconds;
                 $previous->save();
             }
-
             return $this->item($new, new StatisticsTransformer);
         }
 

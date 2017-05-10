@@ -72,33 +72,6 @@ class UserController extends Controller
         return $user;
     }
 
-    /**
-     * Create the current status for user in the database.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function setCurrentStatus(Request $request)
-    {
-        $user = User::findOrFail($request->input('user_id'));
-        if ($user->userStatus->last()) {
-            if ( $user->userStatus->last()->status_id != $request->input( 'status_id' ) ) {
-                $user->userStatus()->attach( $request->input( 'status_id' ) );
-            }
-        } else {
-            $user->userStatus()->attach( $request->input( 'status_id' ) );
-        }
-        return $user;
-    }
-
-    public function getStatusesTime(Request $request)
-    {
-        $user = User::findOrFail($request->input('user_id'));
-        $statuses = $user->countTime();
-        return $statuses;
-    }
-
 }
 
 
