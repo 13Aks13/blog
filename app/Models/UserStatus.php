@@ -40,7 +40,7 @@ class UserStatus extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\Models\User', 'user_status_changing')->withTimestamps();
+        return $this->belongsToMany('App\User', 'user_status_changing')->withTimestamps();
     }
 
 
