@@ -11,8 +11,8 @@ namespace App\Http\Controllers\Api;
 use Dingo\Api\Facade\API;
 use JWTAuth;
 use App\User;
+use App\Models\Statistics;
 use Illuminate\Http\Request;
-use Api\Requests\UserRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -29,7 +29,7 @@ class AuthenticateController extends BaseController
     public function authenticate(Request $request)
     {
         // grab credentials from the request
-        // $credentials = $request->all('email', 'password');
+        // $credentials = $request->only('email', 'password');
         $credentials = json_decode($request->getContent(), true);
         try {
             // attempt to verify the credentials and create a token for the user
@@ -83,15 +83,25 @@ class AuthenticateController extends BaseController
         return API::response()->array(['status' => 'success'])->statusCode(200);
     }
 
-    public function register(UserRequest $request)
+    public function register(Request $request)
     {
         $newUser = [
-            'name' => $request->get('name'),
+            'name' => $request->get('username'),
             'email' => $request->get('email'),
             'password' => bcrypt($request->get('password')),
+            'role' => 2,
         ];
+
         $user = User::create($newUser);
         $token = JWTAuth::fromUser($user);
+        $user->remember_token($token);
+
+        // Set default status -> 1 - Offline
+        $status = new Statistics;
+        $status->user_id = $user->id;
+        $status->status_id = 1;
+        $status->save();
+
         return response()->json(compact('token'));
     }
 

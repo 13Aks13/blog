@@ -16,10 +16,10 @@ class StatisticsTransformer extends TransformerAbstract
     public function transform(Statistics $statistics)
     {
         return [
-            'id' => $statistics->id,
-            'user_id' => $statistics->user_id,
-            'status_id' => $statistics->status_id,
-            'seconds' => $statistics->seconds,
+            'id' => (int) $statistics->id,
+            'user_id' => (int) $statistics->user_id,
+            'status_id' => (int) $statistics->status_id,
+            'seconds' => $statistics->seconds, //gmdate("H:i:s", $statistics->seconds)
             'added' => date('Y-m-d', strtotime($statistics->created_at)),
         ];
     }

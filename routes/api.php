@@ -38,6 +38,7 @@ $api->version('v1', [], function ($api) {
             // User current status
             $api->get('status', 'StatisticsController@getCurrentStatus');
             $api->post('status', 'StatisticsController@setCurrentStatus');
+            $api->put('status', 'StatisticsController@updCurrentStatus');
 
             // User Statuses
             $api->get('statuses', 'UserStatusesController@index');
