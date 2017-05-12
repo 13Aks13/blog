@@ -11,8 +11,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Transformers\StatisticsTransformer;
 use Dingo\Api\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Dingo\Api\Routing\Helpers;
 use App\Models\Statistics;
+use DB;
 
 
 class StatisticsController extends Controller
@@ -61,18 +63,16 @@ class StatisticsController extends Controller
         return $statistics->item($statistics, new StatisticsTransformer);
     }
 
-
     /**
-     *
-     * Update
+     * Update current status for user
      *
      * @param Request $request
      * @return mixed
      */
     public function updCurrentStatus(Request $request)
     {
-        $status=Statistics::where([['user_id', $request->user_id], ['status_id', $request->status_id]])->latest()->first();
-        $status->second = time() - $status->created_at;
+        $status=Statistics::where([['user_id', $request->input( 'user_id' )], ['status_id', $request->input( 'status_id' )]])->latest()->first();
+        $status->seconds = time() - $status->created_at->timestamp;
         $status->save();
 
         return $this->item($status, new StatisticsTransformer);
@@ -86,11 +86,11 @@ class StatisticsController extends Controller
      */
     public function getCurrentStatus(Request $request)
     {
-        return $this->item(Statistics::where('user_id', $request->user_id)->latest()->first(), new StatisticsTransformer);
+        return $this->item(Statistics::where('user_id', $request->input( 'user_id' ))->latest()->first(), new StatisticsTransformer);
     }
 
     /**
-     *
+     *  Get current status for user to statistics
      *
      * @param Request $request
      * @return mixed
@@ -123,5 +123,19 @@ class StatisticsController extends Controller
         return $this;
     }
 
+    public function getTimeForSpecificStatus(Request $request)
+    {
+        $status = DB::table('statistics')->select('status_id', DB::raw('SUM(NULLIF(seconds, 0)) as seconds'))
+            ->where([['user_id', $request->input( 'user_id' )], ['status_id', $request->input( 'status_id' )]])
+            ->whereBetween('created_at', [$request->input( 'start' ), $request->input( 'end' )])
+            ->groupBy('status_id')->get()->first();
 
+        if ($status) {
+            $time = gmdate("H:i:s", $status->seconds);
+            $status->seconds = $time;
+            return Response::json($status);
+        } else {
+            return Response::json(['status_id'=> '0', 'seconds'=> '00:00:00']);
+        }
+    }
 }

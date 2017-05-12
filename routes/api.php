@@ -40,6 +40,9 @@ $api->version('v1', [], function ($api) {
             $api->post('status', 'StatisticsController@setCurrentStatus');
             $api->put('status', 'StatisticsController@updCurrentStatus');
 
+            $api->post('time', 'StatisticsController@getTimeForSpecificStatus');
+
+
             // User Statuses
             $api->get('statuses', 'UserStatusesController@index');
 
