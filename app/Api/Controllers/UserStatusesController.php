@@ -10,7 +10,7 @@ namespace App\Api\Controllers;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\UserStatus;
+use App\Api\Models\UserStatus;
 use App\Transformers\UserStatusesTransformer;
 use Dingo\Api\Routing\Helpers;
 
@@ -34,7 +34,7 @@ class UserStatusesController extends Controller
      */
     public function index()
     {
-
         return $this->collection(UserStatus::all(), new UserStatusesTransformer);
     }
+
 }
