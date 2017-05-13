@@ -30,6 +30,7 @@ class AuthenticateController extends BaseController
     {
         // grab credentials from the request
         $credentials = $request->only('email', 'password');
+
         //$credentials = json_decode($request->getContent(), true);
         try {
             // attempt to verify the credentials and create a token for the user
@@ -43,11 +44,11 @@ class AuthenticateController extends BaseController
 
 
         //save token to DB
-        $user = User::where('email', $credentials['email'])->first();
-        $user->remember_token($token);
+        //$user = User::where('email', $credentials['email'])->first();
+        //$user->remember_token($token);
 
         // all good so return the token
-        return response()->json(compact(['token', 'user'] ));
+        return response()->json(compact(['token'] ));
     }
 
     public function getAuthenticatedUser()
@@ -94,7 +95,7 @@ class AuthenticateController extends BaseController
 
         $user = User::create($newUser);
         $token = JWTAuth::fromUser($user);
-        $user->remember_token($token);
+        //$user->remember_token($token);
 
         // Set default status -> 1 - Offline
         $status = new Statistics;
