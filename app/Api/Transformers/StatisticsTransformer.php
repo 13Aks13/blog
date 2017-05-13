@@ -9,7 +9,7 @@
 namespace App\Api\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use App\Models\Statistics;
+use App\Api\Models\Statistics;
 
 class StatisticsTransformer extends TransformerAbstract
 {

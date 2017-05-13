@@ -9,7 +9,7 @@
 namespace App\Api\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use App\Models\UserStatus;
+use App\Api\Models\UserStatus;
 
 
 class UserStatusesTransformer extends TransformerAbstract
