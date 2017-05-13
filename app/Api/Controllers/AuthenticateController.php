@@ -8,6 +8,7 @@
 
 namespace App\Api\Controllers;
 
+use App\Api\Transformers\UserTransformer;
 use Dingo\Api\Facade\API;
 use JWTAuth;
 use App\User;
@@ -23,7 +24,7 @@ class AuthenticateController extends BaseController
 
     public function me(Request $request)
     {
-        return JWTAuth::parseToken()->authenticate();
+        return $this->item(JWTAuth::parseToken()->authenticate(), new UserTransformer());
     }
 
     public function authenticate(Request $request)

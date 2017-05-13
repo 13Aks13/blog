@@ -9,7 +9,7 @@
 namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Transformers\UserTransformer;
+use App\Api\Transformers\UserTransformer;
 use Dingo\Api\Http\Request;
 use Dingo\Api\Routing\Helpers;
 use App\User;

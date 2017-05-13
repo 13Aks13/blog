@@ -45,7 +45,7 @@ class Statistics extends Model
      */
     public function status()
     {
-        return $this->belongsToMany('App\Models\UserStatus');
+        return $this->belongsToMany('App\Api\Models\UserStatus');
     }
 
 }

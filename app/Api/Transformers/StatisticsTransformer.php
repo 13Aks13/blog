@@ -6,7 +6,7 @@
  * Time: 10:21
  */
 
-namespace App\Transformers;
+namespace App\Api\Transformers;
 
 use League\Fractal\TransformerAbstract;
 use App\Models\Statistics;

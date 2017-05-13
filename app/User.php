@@ -78,17 +78,17 @@ class User extends Model implements AuthenticatableContract,
 
     public function role()
     {
-        return $this->belongsTo('App\Models\Role');
+        return $this->belongsTo('App\Api\Models\Role');
     }
 
     public function tasks()
     {
-        return $this->hasMany('App\Models\Task', 'assigneTo_id', 'id');
+        return $this->hasMany('App\Api\Models\Task', 'assigneTo_id', 'id');
     }
 
     public function createdTasks()
     {
-        return $this->hasMany('App\Models\Task', 'createdBy_id', 'id');
+        return $this->hasMany('App\Api\Models\Task', 'createdBy_id', 'id');
     }
 
     public function isAdmin()
@@ -111,7 +111,7 @@ class User extends Model implements AuthenticatableContract,
 
     public function userStatus()
     {
-        return $this->belongsToMany('App\Models\UserStatus', 'user_status_changing')->withTimestamps();
+        return $this->belongsToMany('App\Api\Models\UserStatus', 'user_status_changing')->withTimestamps();
     }
 
     public function getStatus()

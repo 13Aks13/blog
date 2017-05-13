@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Api\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,26 +13,22 @@ class Task extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\User');
     }
 
     public function comments()
     {
-        return $this->hasMany('App\Models\Note');
+        return $this->hasMany('App\Api\Models\Note');
     }
 
     public function CreatedBy()
     {
-        return $this->belongsTo('App\Models\User', 'createdBy_id', 'id');
+        return $this->belongsTo('App\User', 'createdBy_id', 'id');
     }
 
     public function AssigneTo()
     {
-        return $this->belongsTo('App\Models\User', 'assigneTo_id', 'id');
+        return $this->belongsTo('App\User', 'assigneTo_id', 'id');
     }
 
-    public function status()
-    {
-        return $this->belongsTo('App\Models\Status');
-    }
 }

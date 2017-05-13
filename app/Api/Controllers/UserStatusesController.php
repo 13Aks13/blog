@@ -11,7 +11,7 @@ namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Api\Models\UserStatus;
-use App\Transformers\UserStatusesTransformer;
+use App\Api\Transformers\UserStatusesTransformer;
 use Dingo\Api\Routing\Helpers;
 
 class UserStatusesController extends Controller

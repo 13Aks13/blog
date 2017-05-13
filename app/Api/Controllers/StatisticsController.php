@@ -9,7 +9,7 @@
 namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Transformers\StatisticsTransformer;
+use App\Api\Transformers\StatisticsTransformer;
 use Dingo\Api\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Dingo\Api\Routing\Helpers;

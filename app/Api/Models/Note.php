@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Api\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,6 +8,6 @@ class Note extends Model
 {
     public function task()
     {
-        return $this->belongsTo('App\Models\Task');
+        return $this->belongsTo('App\Api\Models\Task');
     }
 }
