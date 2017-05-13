@@ -42,11 +42,6 @@ class AuthenticateController extends BaseController
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
-
-        //save token to DB
-        //$user = User::where('email', $credentials['email'])->first();
-        //$user->remember_token($token);
-
         // all good so return the token
         return response()->json(compact(['token'] ));
     }
@@ -95,7 +90,6 @@ class AuthenticateController extends BaseController
 
         $user = User::create($newUser);
         $token = JWTAuth::fromUser($user);
-        //$user->remember_token($token);
 
         // Set default status -> 1 - Offline
         $status = new Statistics;
