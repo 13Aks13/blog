@@ -10,7 +10,7 @@ return [
      | to accept any value.
      |
      */
-    'supportsCredentials' => true,
+    'supportsCredentials' => false,
     'allowedOrigins' => ['*'],
     'allowedHeaders' => ['*'],
     'allowedMethods' => ['*'],

@@ -6,14 +6,14 @@
  * Time: 10:13
  */
 
-namespace App\Http\Controllers\Api;
+namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Transformers\StatisticsTransformer;
 use Dingo\Api\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Dingo\Api\Routing\Helpers;
-use App\Models\Statistics;
+use App\Api\Models\Statistics;
 use DB;
 
 

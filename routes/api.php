@@ -17,7 +17,8 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [], function ($api) {
 
-    $api->group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => '\Barryvdh\Cors\HandleCors::class'], function ($api) {
+    $api->group(['namespace' => 'App\Api\Controllers', 'middleware' => '\Barryvdh\Cors\HandleCors::class'], function ($api) {
+
         // Login route
         $api->post('login', 'AuthenticateController@authenticate');
         $api->post('register', 'AuthenticateController@register');

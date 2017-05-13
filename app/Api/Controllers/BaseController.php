@@ -6,7 +6,7 @@
  * Time: 17:45
  */
 
-namespace App\Http\Controllers\Api;
+namespace App\Api\Controllers;
 
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;

@@ -10,13 +10,13 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use MongoDB\BSON\Timestamp;
 
 class User extends Model implements AuthenticatableContract,
-                                    AuthorizableContract,
-                                    CanResetPasswordContract
+    AuthorizableContract,
+    CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
+
 
     /**
      * The attributes that are mass assignable.
@@ -32,10 +32,9 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
+//    protected $hidden = [
+//        'password', 'remember_token',
+//    ];
     protected $avatarPath = '/storage/avatars';
 
     /*
@@ -100,6 +99,15 @@ class User extends Model implements AuthenticatableContract,
             return false;
         }
     }
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
 
     public function userStatus()
     {
@@ -114,8 +122,8 @@ class User extends Model implements AuthenticatableContract,
 
     public function remember_token($token)
     {
-       $this->remember_token=$token;
-       $this->save();
+        $this->remember_token=$token;
+        $this->save();
     }
 
     /**

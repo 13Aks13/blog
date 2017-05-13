@@ -6,12 +6,12 @@
  * Time: 13:07
  */
 
-namespace App\Http\Controllers\Api;
+namespace App\Api\Controllers;
 
 use Dingo\Api\Facade\API;
 use JWTAuth;
 use App\User;
-use App\Models\Statistics;
+use App\Api\Models\Statistics;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -29,8 +29,8 @@ class AuthenticateController extends BaseController
     public function authenticate(Request $request)
     {
         // grab credentials from the request
-        // $credentials = $request->only('email', 'password');
-        $credentials = json_decode($request->getContent(), true);
+        $credentials = $request->only('email', 'password');
+        //$credentials = json_decode($request->getContent(), true);
         try {
             // attempt to verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {

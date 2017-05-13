@@ -28,5 +28,3 @@ class UserRequest extends FormRequest
     }
 }
 
-
-
