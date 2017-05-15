@@ -100,7 +100,7 @@ class StatisticsController extends Controller
         $previous = Statistics::where('user_id', $request->input( 'user_id' ))->latest()->first();
 
         if (!$previous) {
-            $previous = new Statistics;
+            $previous = new Statistics();
             $previous->user_id = $request->input( 'user_id' );
             $previous->status_id = 1;
             $previous->created_at = strtotime('today midnight');
@@ -123,6 +123,14 @@ class StatisticsController extends Controller
         return $this;
     }
 
+
+    /**
+     *
+     * Get time for specific status
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function getTimeForSpecificStatus(Request $request)
     {
         $status = DB::table('statistics')->select('status_id', DB::raw('SUM(NULLIF(seconds, 0)) as seconds'))
@@ -138,4 +146,6 @@ class StatisticsController extends Controller
             return Response::json(['status_id'=> '0', 'seconds'=> '00:00:00']);
         }
     }
+
+
 }
