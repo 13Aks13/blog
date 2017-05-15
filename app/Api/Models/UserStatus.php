@@ -26,6 +26,7 @@ class UserStatus extends Model
 
     /*
      *   Custome Methods
+     *
      */
     public function getStatusName()
     {

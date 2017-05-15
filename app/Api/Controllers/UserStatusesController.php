@@ -12,6 +12,7 @@ namespace App\Api\Controllers;
 use App\Http\Controllers\Controller;
 use App\Api\Models\UserStatus;
 use App\Api\Transformers\UserStatusesTransformer;
+use Dingo\Api\Http\Request;
 use Dingo\Api\Routing\Helpers;
 
 class UserStatusesController extends Controller
@@ -36,5 +37,12 @@ class UserStatusesController extends Controller
     {
         return $this->collection(UserStatus::all(), new UserStatusesTransformer);
     }
+
+
+    public function name(Request $request)
+    {
+        return $this->item(UserStatus::findOrFail($request->input('id' )), new UserStatusesTransformer);
+    }
+
 
 }
