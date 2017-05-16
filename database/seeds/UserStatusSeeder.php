@@ -33,7 +33,8 @@ class UserStatusSeeder extends Seeder
 
         DB::table('user_statuses')->insert([
             'name' => 'Call',
-            'color' => '#FFF'
+            'color' => '#FFF',
+            'parent_id' => 2
         ]);
 
     }

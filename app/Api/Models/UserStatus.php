@@ -19,6 +19,7 @@ class UserStatus extends Model
      * @var array
      */
     protected $fillable = [
+        'parent_id',
         'name',
         'color'
     ];
@@ -37,12 +38,5 @@ class UserStatus extends Model
     {
         return $this->color;
     }
-
-
-    public function users()
-    {
-        return $this->belongsToMany('App\User', 'user_status_changing')->withTimestamps();
-    }
-
 
 }

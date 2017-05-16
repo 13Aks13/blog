@@ -15,8 +15,8 @@ class CreateNotesTable extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('text');
-            $table->integer('task_id')->unsigned();
+            $table->string('text')->collate('utf8_bin');
+            $table->integer('task_id')->unsigned()->collate('utf8_bin');
             $table->timestamps();
         });
     }

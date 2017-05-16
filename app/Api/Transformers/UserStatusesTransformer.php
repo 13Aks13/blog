@@ -18,6 +18,7 @@ class UserStatusesTransformer extends TransformerAbstract
     {
         return [
             'status_id' => $userStatus->id,
+            'parent_id' => $userStatus->parent_id,
             'status_name' => $userStatus->name,
             'status_color' => $userStatus->color
         ];

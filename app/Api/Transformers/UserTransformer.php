@@ -15,7 +15,6 @@ class UserTransformer extends TransformerAbstract
             'email' => $user->email,
             'avatar' => $user->avatar,
             'role' => $user->role,
-            'status' => $user->getStatus(),
             'isBloked' => $user->isBloked,
             'goal' => $user->goal,
             'added' => date('Y-m-d', strtotime($user->created_at)),

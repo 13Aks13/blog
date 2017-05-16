@@ -17,7 +17,7 @@ class CreateStatisticsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('status_id')->unsigned();
-            $table->string('seconds')->default(0);
+            $table->string('seconds')->default(0)->collate('utf8_bin');
             $table->timestamps();
         });
     }

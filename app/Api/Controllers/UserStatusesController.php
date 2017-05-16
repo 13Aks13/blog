@@ -45,4 +45,9 @@ class UserStatusesController extends Controller
     }
 
 
+    public function getChildStatuses(Request $request)
+    {
+        return UserStatus::where('parent_id', $request->input('id'))->get();
+    }
+
 }

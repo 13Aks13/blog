@@ -15,8 +15,8 @@ class CreateStatusesTable extends Migration
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 64);
-            $table->string('color');
+            $table->string('title', 64)->collate('utf8_bin');
+            $table->string('color')->collate('utf8_bin');
         });
     }
 

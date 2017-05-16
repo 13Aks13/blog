@@ -143,9 +143,26 @@ class StatisticsController extends Controller
             $status->seconds = $time;
             return Response::json($status);
         } else {
-            return Response::json(['status_id'=> '0', 'seconds'=> '00:00:00']);
+            return Response::json(['status_id'=> '0', 'parent_id'=> '0', 'seconds'=> '00:00:00']);
         }
     }
 
 
+    public function getTimeForAll(Request $request)
+    {
+
+        $status = DB::table('statistics')->select(DB::raw('SUM(seconds) as seconds'))
+            ->where('user_id', $request->input('user_id'))
+            ->whereIn('status_id', $request->input('status_id'))
+            ->whereBetween('created_at', [$request->input( 'start' ), $request->input( 'end' )])
+            ->first();
+
+        // dd($status->toSql(), $status->getBindings());
+        if($status) {
+            $time = gmdate("H:i:s", $status->seconds);
+            $status->seconds = $time;
+            return Response::json($status);
+        }
+        return Response::json(['status_id'=> $request->input('status_id'), 'parent_id'=> '0', 'seconds'=> '00:00:00']);
+    }
 }

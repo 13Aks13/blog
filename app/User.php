@@ -109,17 +109,6 @@ class User extends Model implements AuthenticatableContract,
     ];
 
 
-    public function userStatus()
-    {
-        return $this->belongsToMany('App\Api\Models\UserStatus', 'user_status_changing')->withTimestamps();
-    }
-
-    public function getStatus()
-    {
-        return $this->userStatus->last();
-    }
-
-
     public function remember_token($token)
     {
         $this->remember_token=$token;

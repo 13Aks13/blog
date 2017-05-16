@@ -42,11 +42,12 @@ $api->version('v1', [], function ($api) {
             $api->put('status', 'StatisticsController@updCurrentStatus');
 
             $api->post('time', 'StatisticsController@getTimeForSpecificStatus');
-
+            $api->post('timeall', 'StatisticsController@getTimeForAll');
 
             // User Statuses
             $api->get('statuses', 'UserStatusesController@index');
             $api->get('statusname', 'UserStatusesController@name');
+            $api->get('child', 'UserStatusesController@getChildStatuses');
 
         });
     });
