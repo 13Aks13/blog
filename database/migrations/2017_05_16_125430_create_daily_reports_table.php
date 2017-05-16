@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableUserStatuses extends Migration
+class CreateDailyReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateTableUserStatuses extends Migration
      */
     public function up()
     {
-        Schema::create('user_statuses', function (Blueprint $table) {
+        Schema::create('daily_reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('parent_id')->nullable()->default(null);
-            $table->string('name')->collate('utf8_bin');
-            $table->string('color')->collate('utf8_bin');
+            $table->integer('user_id')->unsigned();
+            $table->integer('task_id')->unsigned()->nullable();
+            $table->text('report')->collate('utf8_bin');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateTableUserStatuses extends Migration
      */
     public function down()
     {
-        Schema::drop('user_statuses');
+        Schema::dropIfExists('daily_report');
     }
 }

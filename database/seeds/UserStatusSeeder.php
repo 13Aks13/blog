@@ -12,7 +12,7 @@ class UserStatusSeeder extends Seeder
     public function run()
     {
         DB::table('user_statuses')->insert([
-            'name' => 'Offline',
+            'name' => 'Check Out',
             'color' => '#FFF'
         ]);
 
@@ -21,10 +21,6 @@ class UserStatusSeeder extends Seeder
             'color' => '#FFF'
         ]);
 
-        DB::table('user_statuses')->insert([
-            'name' => 'Lunch',
-            'color' => '#FFF'
-        ]);
 
         DB::table('user_statuses')->insert([
             'name' => 'Break',
@@ -32,10 +28,16 @@ class UserStatusSeeder extends Seeder
         ]);
 
         DB::table('user_statuses')->insert([
-            'name' => 'Call',
-            'color' => '#FFF',
-            'parent_id' => 2
+            'name' => 'Lunch',
+            'color' => '#FFF'
         ]);
+
+
+//        DB::table('user_statuses')->insert([
+//            'name' => 'Call',
+//            'color' => '#FFF',
+//            'parent_id' => 2
+//        ]);
 
     }
 
