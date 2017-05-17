@@ -47,4 +47,6 @@ class DailyReportsController extends Controller
         return $this->item(DailyReports::create($request->only(['user_id', 'task_id', 'report'])), new DailyReportsTransformer);
     }
 
+
+
 }
