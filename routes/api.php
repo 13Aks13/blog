@@ -41,13 +41,16 @@ $api->version('v1', [], function ($api) {
             $api->post('status', 'StatisticsController@setCurrentStatus');
             $api->put('status', 'StatisticsController@updCurrentStatus');
 
+            // Statistics
             $api->post('time', 'StatisticsController@getTimeForSpecificStatus');
             $api->post('timeall', 'StatisticsController@getTimeForAll');
+            $api->get('rtreport', 'StatisticsController@getAllStatuses');
 
             // User Statuses
             $api->get('statuses', 'UserStatusesController@index');
             $api->get('statusname', 'UserStatusesController@name');
             $api->get('child', 'UserStatusesController@getChildStatuses');
+
 
             // Daily Report
             $api->post('report', 'DailyReportsController@store');

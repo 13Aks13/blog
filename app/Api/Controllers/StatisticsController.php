@@ -148,9 +148,14 @@ class StatisticsController extends Controller
     }
 
 
+    /**
+     * Get all statuses time with parent ID
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function getTimeForAll(Request $request)
     {
-
         $status = DB::table('statistics')->select(DB::raw('SUM(seconds) as seconds'))
             ->where('user_id', $request->input('user_id'))
             ->whereIn('status_id', $request->input('status_id'))
@@ -165,4 +170,49 @@ class StatisticsController extends Controller
         }
         return Response::json(['status_id'=> $request->input('status_id'), 'parent_id'=> '0', 'seconds'=> '00:00:00']);
     }
+
+
+    /**
+     *
+     * Get last status for user
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function getStatusTimeForUser(Request $request)
+    {
+        $status = DB::table('statistics')->select('status_id', DB::raw('SUM(seconds) as seconds'))
+            ->where('user_id', $request->input('user_id'))
+            ->whereBetween('created_at', [$request->input( 'start' ), $request->input( 'end' )])
+            ->whereBetween('updated_at', [$request->input( 'start' ), $request->input( 'end' )])
+            ->last();
+
+        if($status) {
+            $time = gmdate("H:i:s", $status->seconds);
+            $status->seconds = $time;
+            return Response::json($status);
+        }
+        return Response::json(['status_id'=> $request->input('status_id'), 'parent_id'=> '0', 'seconds'=> '00:00:00']);
+    }
+
+
+    public function getAllStatuses(Request $request)
+    {
+        //DB::enableQueryLog();
+        $status = DB::table('statistics')->select('user_id', 'status_id', DB::raw('SUM(seconds) as seconds'))
+            ->where([['created_at', '>=', $request->input('start')], ['updated_at', '<=' , $request->input('end')]])
+            ->groupBy('user_id', 'status_id')
+            ->get();
+        //dd($status->toSql(), $status->getBindings());
+        //dd(DB::getQueryLog(), $status);
+        if($status) {
+            foreach ($status as $st) {
+                $time = gmdate("H:i:s", $st->seconds);
+                $st->seconds = $time;
+            }
+            return Response::json($status);
+        }
+        return Response::json(['user_id' => 0, 'status_id' => 0, 'seconds'=> '00:00:00']);
+    }
+
 }
