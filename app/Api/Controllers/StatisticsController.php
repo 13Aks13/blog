@@ -196,6 +196,13 @@ class StatisticsController extends Controller
     }
 
 
+    /**
+     *
+     * Get all users statuses for date
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function getAllStatuses(Request $request)
     {
         //DB::enableQueryLog();
@@ -205,14 +212,27 @@ class StatisticsController extends Controller
             ->get();
         //dd($status->toSql(), $status->getBindings());
         //dd(DB::getQueryLog(), $status);
+        //$obj = new \stdClass();
         if($status) {
             foreach ($status as $st) {
+
                 $time = gmdate("H:i:s", $st->seconds);
                 $st->seconds = $time;
             }
-            return Response::json($status);
+            $newArr = [];
+            $status->groupBy('user_id')->map(function ($item, $key) use(&$newArr) {
+                $arr = [];
+                $item->map(function($item) use(&$newArr, &$arr) {
+                    $arr[$item->status_id] = $item->seconds;
+                });
+                $newArr[$key] = $arr;
+            });
+
+            return Response::json($newArr);
+//            return Response::json($status->groupBy('user_id'));
+            //return $this->response->collection($status, new StatisticsTransformer);
         }
-        return Response::json(['user_id' => 0, 'status_id' => 0, 'seconds'=> '00:00:00']);
+        return $this->response->noContent();
     }
 
 }

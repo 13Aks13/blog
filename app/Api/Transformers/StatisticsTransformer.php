@@ -23,4 +23,5 @@ class StatisticsTransformer extends TransformerAbstract
             'added' => date('Y-m-d', strtotime($statistics->created_at)),
         ];
     }
+
 }

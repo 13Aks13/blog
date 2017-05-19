@@ -27,7 +27,7 @@ $api->version('v1', [], function ($api) {
         $api->group(['middleware' => 'jwt.auth'], function ($api) {
 
             $api->get('users/me', 'AuthenticateController@me');
-            $api->get('validate_token', 'AuthenticateController@validateToken');
+            $api->get('valid', 'AuthenticateController@validateToken');
 
             // User
             $api->get('users', 'UserController@index');
