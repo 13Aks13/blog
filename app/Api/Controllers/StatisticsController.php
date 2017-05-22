@@ -86,7 +86,11 @@ class StatisticsController extends Controller
      */
     public function getCurrentStatus(Request $request)
     {
-        return $this->item(Statistics::where('user_id', $request->input( 'user_id' ))->latest()->first(), new StatisticsTransformer);
+        $statistics = Statistics::where('user_id', $request->input( 'user_id' ))->latest()->first();
+        if ($statistics) {
+            return $this->item($statistics, new StatisticsTransformer);
+        }
+        return Response::json(['data' => ['user_id'=> $request->input('user_id'), 'status_id'=> '1', 'seconds'=> '00:00:00']]);
     }
 
     /**
