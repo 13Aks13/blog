@@ -86,7 +86,7 @@ class AuthenticateController extends BaseController
             'name' => $request->get('username'),
             'email' => $request->get('email'),
             'password' => bcrypt($request->get('password')),
-            'role' => 2,
+            'role' => 3,
         ];
 
         $user = User::create($newUser);
