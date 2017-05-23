@@ -89,8 +89,13 @@ class StatisticsController extends Controller
         $statistics = Statistics::where('user_id', $request->input( 'user_id' ))->latest()->first();
         if ($statistics) {
             return $this->item($statistics, new StatisticsTransformer);
+        } else {
+            $statistics = new Statistics();
+            $statistics->user_id = $request->input('user_id');
+            $statistics->status_id = 1;
+            $statistics->save();
         }
-        return Response::json(['data' => ['user_id'=> $request->input('user_id'), 'status_id'=> '1', 'seconds'=> '00:00:00']]);
+        return $this->item($statistics, new StatisticsTransformer);
     }
 
     /**

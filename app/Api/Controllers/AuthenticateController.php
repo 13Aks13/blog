@@ -31,6 +31,7 @@ class AuthenticateController extends BaseController
     {
         // grab credentials from the request
         // $credentials = $request->only('email', 'password');
+        //dd($credentials);
         // this work only for cors for angular
         $credentials = json_decode($request->getContent(), true);
         try {
