@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->collate('utf8_bin');;
             $table->string('avatar')->nullable()->collate('utf8_bin');;
             $table->string('password')->collate('utf8_bin');;
-            $table->integer('role_id')->unsigned()->default(2);
+            $table->integer('role_id')->unsigned()->default(3);
 //            $table->integer('status_id')->unsigned()->default(1);
             $table->boolean('isBlocked')->default(false);
             $table->integer('goal')->default(0);
