@@ -84,9 +84,9 @@ class AuthenticateController extends BaseController
     public function register(Request $request)
     {
         $newUser = [
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password')),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
             'role' => 3,
         ];
 
