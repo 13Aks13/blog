@@ -51,9 +51,11 @@ $api->version('v1', [], function ($api) {
             $api->get('statusname', 'UserStatusesController@name');
             $api->get('child', 'UserStatusesController@getChildStatuses');
 
-
             // Daily Report
             $api->post('report', 'DailyReportsController@store');
+
+            // Location
+            $api->get('location', 'LocationController@index');
 
         });
     });
