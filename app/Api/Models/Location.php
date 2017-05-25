@@ -13,8 +13,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
+    /*
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title'
+    ];
+
+    /**
+     * Relation for User.
+     *
+     * @param
+     * @return
+     */
     public function users()
     {
-        return $this->hasMany('App\User');
+        return $this->belongsToMany('App\User');
     }
+
+
 }
