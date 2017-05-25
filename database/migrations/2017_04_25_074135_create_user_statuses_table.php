@@ -16,8 +16,8 @@ class CreateUserStatusesTable extends Migration
         Schema::create('user_statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('parent_id')->nullable()->default(null);
-            $table->string('name')->collate('utf8_bin');
-            $table->string('color')->collate('utf8_bin');
+            $table->string('name');
+            $table->string('color');
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ class CreateDailyReportsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('task_id')->unsigned()->nullable();
-            $table->text('report')->collate('utf8_bin');
+            $table->text('report');
             $table->timestamps();
         });
     }

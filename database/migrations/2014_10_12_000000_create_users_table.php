@@ -15,24 +15,24 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('first name')->collate('utf8_bin');
-            $table->string('flastst name')->collate('utf8_bin');
-            $table->string('email')->unique()->collate('utf8_bin');
-            $table->string('avatar')->nullable()->collate('utf8_bin');
-            $table->string('password')->collate('utf8_bin');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('email')->unique();
+            $table->string('avatar')->nullable();
+            $table->string('password');
 
-            $table->string('birthday')->nullable()->collate('utf8_bin');
-            $table->string('skype')->nullable()->collate('utf8_bin');
-            $table->string('phone')->nullable()->collate('utf8_bin');
-            $table->string('title')->nullable()->collate('utf8_bin');
+            $table->string('birthday')->nullable();
+            $table->string('skype')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('title')->nullable();
 
             $table->integer('role_id')->unsigned()->default(3);
-            $table->integer('location_id')->unsigned()->default(0);
+            $table->integer('location_id')->unsigned()->nullable();
             $table->integer('workstation')->nullable();
 
             $table->boolean('isBlocked')->default(false);
             $table->integer('goal')->default(0);
-            $table->string('remember_token')->default(0)->collate('utf8_bin');
+            $table->string('remember_token')->default(0);
             $table->timestamps();
         });
     }
