@@ -88,14 +88,16 @@ class StatisticsController extends Controller
     {
         $statistics = Statistics::where('user_id', $request->input( 'user_id' ))->latest()->first();
         if ($statistics) {
-            return $this->item($statistics, new StatisticsTransformer);
-        } else {
-            $statistics = new Statistics();
-            $statistics->user_id = $request->input('user_id');
-            $statistics->status_id = 1;
-            $statistics->save();
+            return $this->item( $statistics, new StatisticsTransformer );
         }
-        return $this->item($statistics, new StatisticsTransformer);
+        return $this->response->noContent();
+//        } else {
+//            $statistics = new Statistics();
+//            $statistics->user_id = $request->input('user_id');
+//            $statistics->status_id = 1;
+//            $statistics->save();
+//        }
+//        return $this->item($statistics, new StatisticsTransformer);
     }
 
     /**
@@ -109,21 +111,26 @@ class StatisticsController extends Controller
         $previous = Statistics::where('user_id', $request->input( 'user_id' ))->latest()->first();
 
         if (!$previous) {
-            $previous = new Statistics();
-            $previous->user_id = $request->input( 'user_id' );
-            $previous->status_id = 1;
-            $previous->created_at = strtotime('today midnight');
-            $previous->save();
+            $new = new Statistics();
+            $new->user_id = $request->input( 'user_id' );
+            $new->status_id = $request->input( 'status_id' );
+            $new->created_at = time();
+            $new->seconds = 0;
+            $new->save();
+
+            return $this->item($new, new StatisticsTransformer);
         }
 
         if ($previous->status_id != $request->input( 'status_id' )) {
             $new = new Statistics();
             $new->user_id = $request->input( 'user_id' );
-            $new->status_id = $request->input( 'status_id' ) ;
+            $new->status_id = $request->input( 'status_id' );
+            $new->seconds = 0;
 
             if ($new->save()) {
-                $seconds = $new->created_at->timestamp - $previous->created_at->timestamp;
+                $seconds = time() - $previous->created_at->timestamp;
                 $previous->seconds = $seconds;
+                $previous->end = time();
                 $previous->save();
             }
             return $this->item($new, new StatisticsTransformer);
@@ -135,13 +142,19 @@ class StatisticsController extends Controller
 
     /**
      *
-     * Get time for specific status
+     * Get time for specific user and status
      *
      * @param Request $request
      * @return mixed
      */
     public function getTimeForSpecificStatus(Request $request)
     {
+
+        $count = DB::table('statistics')->select(DB::raw('COUNT(id) as count'))
+            ->where([['user_id', $request->input( 'user_id' )], ['status_id', $request->input( 'status_id' )]])
+            ->whereBetween('created_at', [$request->input( 'start' ), $request->input( 'end' )])
+            ->groupBy('status_id')->get()->first();
+
         $status = DB::table('statistics')->select('status_id', DB::raw('SUM(NULLIF(seconds, 0)) as seconds'))
             ->where([['user_id', $request->input( 'user_id' )], ['status_id', $request->input( 'status_id' )]])
             ->whereBetween('created_at', [$request->input( 'start' ), $request->input( 'end' )])

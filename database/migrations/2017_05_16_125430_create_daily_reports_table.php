@@ -29,6 +29,6 @@ class CreateDailyReportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('daily_report');
+        Schema::dropIfExists('daily_reports');
     }
 }

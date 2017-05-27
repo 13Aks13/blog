@@ -23,6 +23,7 @@ class Statistics extends Model
         'user_id',
         'starus_id',
         'seconds',
+        'end'
     ];
 
 

@@ -18,6 +18,7 @@ class CreateStatisticsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('status_id')->unsigned();
             $table->string('seconds')->default(0);
+            $table->timestamp('end')->nullable();
             $table->timestamps();
         });
     }
