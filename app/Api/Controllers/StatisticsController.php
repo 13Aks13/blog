@@ -56,10 +56,12 @@ class StatisticsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $statistics = Statistics::findOrFail($id);
-        $statistics->update($request->only(['user_id', 'status_id', 'seconds']));
+        $statistics = Statistics::findOrFail($request->input( 'user_id' ));
+        $seconds = $request->input( 'end' )->timestamp - $statistics->created_at->timestamp;
+        $statistics->seconds = $seconds;
+        $statistics->update($request->only(['user_id', 'status_id', 'seconds', 'end']));
         return $statistics->item($statistics, new StatisticsTransformer);
     }
 
@@ -69,14 +71,14 @@ class StatisticsController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function updCurrentStatus(Request $request)
-    {
-        $status=Statistics::where([['user_id', $request->input( 'user_id' )], ['status_id', $request->input( 'status_id' )]])->latest()->first();
-        $status->seconds = time() - $status->created_at->timestamp;
-        $status->save();
-
-        return $this->item($status, new StatisticsTransformer);
-    }
+//    public function updCurrentStatus(Request $request)
+//    {
+//        $status=Statistics::where([['user_id', $request->input( 'user_id' )], ['status_id', $request->input( 'status_id' )]])->latest()->first();
+//        $status->seconds = time() - $status->created_at->timestamp;
+//        $status->save();
+//
+//        return $this->item($status, new StatisticsTransformer);
+//    }
 
     /**
      * Get current status for user to statistics
@@ -91,13 +93,6 @@ class StatisticsController extends Controller
             return $this->item( $statistics, new StatisticsTransformer );
         }
         return $this->response->noContent();
-//        } else {
-//            $statistics = new Statistics();
-//            $statistics->user_id = $request->input('user_id');
-//            $statistics->status_id = 1;
-//            $statistics->save();
-//        }
-//        return $this->item($statistics, new StatisticsTransformer);
     }
 
     /**
@@ -110,6 +105,7 @@ class StatisticsController extends Controller
     {
         $previous = Statistics::where('user_id', $request->input( 'user_id' ))->latest()->first();
 
+        //dd($previous->toSql(), $previous->getBindings());
         if (!$previous) {
             $new = new Statistics();
             $new->user_id = $request->input( 'user_id' );
@@ -125,18 +121,20 @@ class StatisticsController extends Controller
             $new = new Statistics();
             $new->user_id = $request->input( 'user_id' );
             $new->status_id = $request->input( 'status_id' );
+            $new->created_at = time();
             $new->seconds = 0;
 
             if ($new->save()) {
                 $seconds = time() - $previous->created_at->timestamp;
                 $previous->seconds = $seconds;
-                $previous->end = time();
+                // Convert UNIX time ti timestamp MySQL
+                // https://stackoverflow.com/questions/5632662/saving-timestamp-in-mysql-table-using-php
+                $previous->end = date('Y-m-d H:i:s',time());
                 $previous->save();
             }
             return $this->item($new, new StatisticsTransformer);
         }
-
-        return $this;
+        return $this->response->noContent();
     }
 
 
@@ -149,22 +147,42 @@ class StatisticsController extends Controller
      */
     public function getTimeForSpecificStatus(Request $request)
     {
-
-        $count = DB::table('statistics')->select(DB::raw('COUNT(id) as count'))
-            ->where([['user_id', $request->input( 'user_id' )], ['status_id', $request->input( 'status_id' )]])
-            ->whereBetween('created_at', [$request->input( 'start' ), $request->input( 'end' )])
-            ->groupBy('status_id')->get()->first();
+        // Current status
+        $currentStatus = Statistics::where('user_id', $request->input( 'user_id' ))->latest()->first();
+        $seconds = 0;
+        if ($currentStatus) {
+            $seconds = time() - $currentStatus->created_at->timestamp;
+            $currentStatus->seconds = $seconds;
+        }
 
         $status = DB::table('statistics')->select('status_id', DB::raw('SUM(NULLIF(seconds, 0)) as seconds'))
             ->where([['user_id', $request->input( 'user_id' )], ['status_id', $request->input( 'status_id' )]])
             ->whereBetween('created_at', [$request->input( 'start' ), $request->input( 'end' )])
             ->groupBy('status_id')->get()->first();
 
+
         if ($status) {
-            $time = gmdate("H:i:s", $status->seconds);
+            // Current status === $status in this day with previous end time
+            if ($currentStatus) {
+                if ($currentStatus->status_id === $status->status_id) {
+                    // Add current time to perevious
+                    $time = gmdate( "H:i:s", $status->seconds + $seconds);
+                } else {
+                    // Status time
+                    $time = gmdate( "H:i:s", $status->seconds );
+                }
+            } else {
+                // Status time
+                $time = gmdate( "H:i:s", $status->seconds );
+            }
             $status->seconds = $time;
             return Response::json($status);
         } else {
+            //If db has only current status
+            if ($currentStatus) {
+                $currentStatus->seconds = gmdate("H:i:s", $seconds);
+                return Response::json($currentStatus);
+            }
             return Response::json(['status_id'=> '0', 'parent_id'=> '0', 'seconds'=> '00:00:00']);
         }
     }
@@ -227,18 +245,51 @@ class StatisticsController extends Controller
      */
     public function getAllStatuses(Request $request)
     {
+        // All active statuses for users
+        $currentStatus = Statistics::whereNull('end')->get();
+        if($currentStatus) {
+            foreach ( $currentStatus as $cs ) {
+                $seconds = time() - $cs->created_at->timestamp;
+                $cs->seconds = $seconds;
+            }
+        }
+
         //DB::enableQueryLog();
         $status = DB::table('statistics')->select('user_id', 'status_id', DB::raw('SUM(seconds) as seconds'))
-            ->where([['created_at', '>=', $request->input('start')], ['updated_at', '<=' , $request->input('end')]])
+            ->whereNotNull('end')
+            ->whereBetween('created_at', [$request->input( 'start' ), $request->input( 'end' )])
             ->groupBy('user_id', 'status_id')
             ->get();
         //dd($status->toSql(), $status->getBindings());
         //dd(DB::getQueryLog(), $status);
         //$obj = new \stdClass();
+
+        if ($currentStatus && $status) {
+            foreach ($currentStatus as $ct) {
+                $existStatus = false;
+                foreach ($status as $st) {
+                    if (($ct->user_id === $st->user_id) && ($ct->status_id === $st->status_id)) {
+                        $st->seconds = $st->seconds + $ct->seconds;
+                        $existStatus = true;
+                        break;
+                    }
+                }
+
+                if ($existStatus === false) {
+                    $object = new \StdClass();
+                    $object->user_id = $ct->user_id;
+                    $object->status_id = $ct->status_id;
+                    $object->seconds = $ct->seconds;
+                    $status->push($object);
+//                    $status->push(collect(['user_id' => $ct->user_id, 'status_id' => $ct->status_id, 'seconds' => $ct->seconds]));
+                }
+
+            }
+        }
+
         if($status) {
             foreach ($status as $st) {
-
-                $time = gmdate("H:i:s", $st->seconds);
+                $time = gmdate( "H:i:s", $st->seconds );
                 $st->seconds = $time;
             }
             $newArr = [];
@@ -249,10 +300,8 @@ class StatisticsController extends Controller
                 });
                 $newArr[$key] = $arr;
             });
-
+            //dd($newArr);
             return Response::json($newArr);
-//            return Response::json($status->groupBy('user_id'));
-            //return $this->response->collection($status, new StatisticsTransformer);
         }
         return $this->response->noContent();
     }

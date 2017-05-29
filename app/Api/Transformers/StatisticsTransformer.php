@@ -19,8 +19,9 @@ class StatisticsTransformer extends TransformerAbstract
             'id' => (int) $statistics->id,
             'user_id' => (int) $statistics->user_id,
             'status_id' => (int) $statistics->status_id,
+            'start' => date('Y-m-d', strtotime($statistics->created_at)),
+            'end' => date(strtotime($statistics->end)),
             'seconds' => $statistics->seconds, //gmdate("H:i:s", $statistics->seconds)
-            'added' => date('Y-m-d', strtotime($statistics->created_at)),
         ];
     }
 
