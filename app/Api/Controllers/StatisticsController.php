@@ -300,7 +300,7 @@ class StatisticsController extends Controller
                 });
                 $newArr[$key] = $arr;
             });
-            //dd($newArr);
+            //  dd($newArr);
             return Response::json($newArr);
         }
         return $this->response->noContent();
