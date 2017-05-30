@@ -82,6 +82,12 @@ class User extends Model implements AuthenticatableContract,
         return $this->belongsTo('App\Api\Models\Role');
     }
 
+    public function location()
+    {
+        return $this->belongsTo('App\Api\Models\Location');
+    }
+
+
     public function tasks()
     {
         return $this->hasMany('App\Api\Models\Task', 'assigneTo_id', 'id');
