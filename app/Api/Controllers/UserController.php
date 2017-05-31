@@ -73,7 +73,7 @@ class UserController extends Controller
     }
 
 
-    public function avatar(UserRequest $request)
+    public function avatar(Request $request)
     {
         $user = User::findOrFail($request->input('id'));
         $user->avatar = $request->input('avatar');

@@ -29,12 +29,14 @@ $api->version('v1', [], function ($api) {
             $api->get('users/me', 'AuthenticateController@me');
             $api->get('valid', 'AuthenticateController@validateToken');
 
+
             // User
             $api->get('users', 'UserController@index');
             $api->post('users', 'UserController@store');
             $api->get('users/{id}', 'UserController@show');
             $api->delete('users/{id}', 'UserController@destroy');
             $api->put('users/{id}', 'UserController@update');
+            $api->post('avatar', 'UserController@avatar');
 
             // User current status
             $api->get('status', 'StatisticsController@getCurrentStatus');
