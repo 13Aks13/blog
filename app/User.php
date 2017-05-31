@@ -36,6 +36,7 @@ class User extends Model implements AuthenticatableContract,
 //    protected $hidden = [
 //        'password', 'remember_token',
 //    ];
+
     protected $avatarPath = '/storage/avatars';
 
     /*
@@ -116,6 +117,15 @@ class User extends Model implements AuthenticatableContract,
     ];
 
 
+    public function setAvatar($avatar) {
+        $this->avatar = $avatar;
+        $this->save();
+    }
+
+
+    /**
+     * @param $token
+     */
     public function remember_token($token)
     {
         $this->remember_token=$token;
