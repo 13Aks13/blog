@@ -37,46 +37,46 @@ class User extends Model implements AuthenticatableContract,
 //        'password', 'remember_token',
 //    ];
 
-    protected $avatarPath = '/storage/avatars';
+//    protected $avatarPath = '/storage/avatars';
+//
+//    /*
+//     *   Custome Methods
+//     */
+//    public function getAvatarStoragePath()
+//    {
+//        return $this->avatarPath . '/' . $this->id;
+//    }
+//
+//    public function getAvatarStorageFullPath()
+//    {
+//        $path = public_path() . $this->getAvatarStoragePath();
+//        if(!is_dir($path)) {
+//            File::makeDirectory($path, 0775, true);
+//        }
+//        return $path;
+//    }
+//
+//    public function getAvatarAttribute($value)
+//    {
+//        if (is_null($value)) {
+//            return null;
+//        } else {
+//            return $this->getAvatarStoragePath() . '/' . $value;
+//        }
+//    }
 
-    /*
-     *   Custome Methods
-     */
-    public function getAvatarStoragePath()
-    {
-        return $this->avatarPath . '/' . $this->id;
-    }
-
-    public function getAvatarStorageFullPath()
-    {
-        $path = public_path() . $this->getAvatarStoragePath();
-        if(!is_dir($path)) {
-            File::makeDirectory($path, 0775, true);
-        }
-        return $path;
-    }
-
-    public function getAvatarAttribute($value)
-    {
-        if (is_null($value)) {
-            return null;
-        } else {
-            return $this->getAvatarStoragePath() . '/' . $value;
-        }
-    }
-
-    public function deleteAvatar()
-    {
-        if (!is_null($this->avatar)) {
-            $file = public_path() . $this->avatar;
-
-            if (is_file($file)) {
-                unlink($file);
-                $this->avatar = null;
-            }
-        }
-        return true;
-    }
+//    public function deleteAvatar()
+//    {
+//        if (!is_null($this->avatar)) {
+//            $file = public_path() . $this->avatar;
+//
+//            if (is_file($file)) {
+//                unlink($file);
+//                $this->avatar = null;
+//            }
+//        }
+//        return true;
+//    }
 
     public function role()
     {
